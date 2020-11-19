@@ -1,5 +1,8 @@
 module Enumerable
   def my_each
+    return for i in self do
+      yield i
+    end
   end
 
   def my_each_with_index
@@ -30,3 +33,5 @@ module Enumerable
   end
 end
 
+puts ([3,2,1,4,5,6]).each { |i| } 
+puts ([3,2,1,4,5,6]).my_each { |i| }
