@@ -22,12 +22,26 @@ module Enumerable
     arr
   end
 
-  def my_all?(*args)
-    return args unless block_given?
-
-    (self.my_select { |i| yield(i) }).length == self.length
-    # puts args # args.kind_of?(args) #(self.my_select { |i| i==args } )
+  def my_all?( *args )
+    # puts "args #{args} #{args[0].class}"
+    return (self.my_select { |i| yield(i) }).length == self.length if block_given?
+    unless block_given?
+        return true if args==[]
+        return ((self.my_select { |i| i.class == args[0] }).length == self.length) if args[0].is_a? Class
+        return ((self.my_select {|i| i.match(args[0])}).length == self.length) if args[0].is_a? Regexp
+        return (self.my_select { |i| i==args[0] }).length == self.length if args[0].is_a? Integer
+      end
   end
+
+  # def my_all?(*args)
+  #   (self.my_select { |i| yield(i) }).length == self.length
+  #   unless block_given?
+  #     return puts "empty" if args==[]
+  #     # return puts "thats right" if args.class == (Integer)
+  #     # return puts "A Regexp" if args.is_a?(Regexp)
+  #   end
+  # end
+
 
   def my_any?
   end
