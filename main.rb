@@ -44,12 +44,21 @@ module Enumerable
     end
   end
 
-  def my_count
-    puts 'my_count'
+  def my_count ( *args )
+    if block_given?
+      return (self.my_select {|i| yield(i)}).length
+    else
+      return (self.my_select { |i| i==args[0] }).length if args[0].is_a? Integer
+      return self.length
+    end
   end
 
-  def my_map
-    puts 'my_maps'
+  def my_map( *args )
+    arr = []
+    self.my_select do |n| 
+      arr << yield(n)
+    end
+    arr
   end
 
   def my_inject
@@ -108,4 +117,25 @@ p [1, 2, 3].my_none? # => false
 p [1, 2, 3].my_none?(String) # => true
 p [1, 2, 3, 4, 5].my_none?(2) # => false
 p [1, 2, 3].my_none?(4) # => true
+puts
+
+# 7. my_count (example test cases)
+puts 'my_count'
+puts '--------'
+p [1, 4, 3, 8].my_count(&:even?) # => 2
+p %w[DANIEL JIA KRITI dave].my_count { |s| s == s.upcase } # => 3
+p %w[daniel jia kriti dave].my_count { |s| s == s.upcase } # => 0
+# test cases required by tse reviewer
+p [1, 2, 3].my_count # => 3
+p [1, 1, 1, 2, 3].my_count(1) # => 3
+puts
+
+# 8. my_map
+puts 'my_map'
+puts '------'
+p [1, 2, 3].my_map { |n| 2 * n } # => [2,4,6]
+p %w[Hey Jude].my_map { |word| word + '?' } # => ["Hey?", "Jude?"]
+p [false, true].my_map(&:!) # => [true, false]
+my_proc = proc { |num| num > 10 }
+p [18, 22, 5, 6].my_map(my_proc) { |num| num < 10 } # => true true false false
 puts
