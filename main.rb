@@ -1,7 +1,7 @@
 module Enumerable
   def my_each
-    return for i in self do
-             yield i
+    for i in self do
+      yield i
     end
   end
 
@@ -15,6 +15,9 @@ module Enumerable
   end
 
   def my_select
+    for i in self do
+      yield i
+    end
   end
 
   def my_all?
@@ -46,8 +49,16 @@ end
 # puts
 
 # 2. my_each_with_index
-puts 'my_each_with_index'
-puts '------------------'
-print([1, 2, 3].each_with_index { |elem, idx| puts "#{elem} : #{idx}" }) # => 1 : 0, 2 : 1, 3 : 2
-print([1, 2, 3].my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }) # => 1 : 0, 2 : 1, 3 : 2
-puts
+# puts 'my_each_with_index'
+# puts '------------------'
+# print([1, 2, 3].each_with_index { |elem, idx| puts "#{elem} : #{idx}" }) # => 1 : 0, 2 : 1, 3 : 2
+# print([1, 2, 3].my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }) # => 1 : 0, 2 : 1, 3 : 2
+# puts
+
+# 3. my_select
+puts 'my_select'
+puts '---------'
+p [1, 2, 3, 8].my_select(&:even?) # => [2, 8]
+p [0, 2018, 1994, -7].my_select { |n| n > 0 } # => [2018, 1994]
+p [6, 11, 13].my_select(&:odd?) # => [11, 13]
+puts\
