@@ -15,9 +15,11 @@ module Enumerable
   end
 
   def my_select
+    arr = []
     for i in self do
-      yield i
+      arr << i if yield i
     end
+    arr
   end
 
   def my_all?
@@ -61,4 +63,4 @@ puts '---------'
 p [1, 2, 3, 8].my_select(&:even?) # => [2, 8]
 p [0, 2018, 1994, -7].my_select { |n| n > 0 } # => [2018, 1994]
 p [6, 11, 13].my_select(&:odd?) # => [11, 13]
-puts\
+puts
