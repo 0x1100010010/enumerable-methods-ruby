@@ -5,7 +5,7 @@
 
 ## Description
 
-This is a Microverse project, designed to build and fully understand the bubble sort algorithm. This project is focused on the use of yield and passing a block to a method and of course, on putting into practice the knowledge of Ruby.
+This is a project from the Microverse course designed to fully understand enumerable methods in Ruby. To achieve this task, this project consists of rebuilding some of these methods on our own, not only to understand them but to prove that there's no magic to it. Hope you enjoy it.
 
 
 ## Built With

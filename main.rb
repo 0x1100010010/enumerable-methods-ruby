@@ -86,8 +86,8 @@ module Enumerable
     res
   end
 
-  def multiply_els
-    puts 'multiply_els'
+  def multiply_els(args)
+    args.my_inject(1) { |prod, n| prod * n }
   end
 end
 
@@ -185,3 +185,8 @@ p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
 p [5, 1, 2].my_inject(:+) # => 8
 p (5..10).my_inject(2, :*) # should return 302400
 p (5..10).my_inject(4) { |prod, n| prod * n } # should return 604800
+
+# 10. multiply_els
+puts 'multiply_els'
+puts '---------'
+p [1].multiply_els([2, 9, 5])
