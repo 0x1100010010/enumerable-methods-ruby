@@ -73,38 +73,23 @@ module Enumerable
   def my_inject(*args)
     if block_given?
       result = args.length.positive?
-      sum = result ? args[0] : self[0]
-      drop(result ? 0 : 1).my_each do |i|
-        sum = yield(sum, i)
-      end
+      res = result ? args[0] : self[0]
+      drop(result ? 0 : 1).my_each { |i| res = yield(res, i) }
+    elsif (args.length == 1) && (args[0].is_a? Symbol)
+      res = 0
+      my_each { |i| res = res.send(args[0], i) }
 
-    else
-      if args.length==1
-        if args[0].is_a? Symbol
-          res = 0
-          my_each {|i| res=res.send(args[0],i)}
-          return res
-        end
-      end
-
-      if args.length==2
-        if args[1].is_a? Symbol
-          res=args[0]
-          drop(0).my_each do |i|
-            res = res.send(args[1],i)
-          end
-        end
-        return res
-      end
+    elsif (args.length == 2) && (args[1].is_a? Symbol)
+      res = args[0]
+      drop(0).my_each { |i| res = res.send(args[1], i) }
     end
-    sum
+    res
   end
 
   def multiply_els
     puts 'multiply_els'
   end
 end
-
 
 # 1. my_each
 puts 'my_each'
@@ -155,7 +140,7 @@ p [1, nil, false].my_any?(1) # => true
 p [1, nil, false].my_any?(Integer) # => true
 p %w[dog door rod blade].my_any?(/z/) # => false
 p [1, 2, 3].my_any?(1) # => true
-#puts
+# puts
 
 # 6. my_none? (example test cases)
 puts 'my_none?'
