@@ -21,10 +21,9 @@ module Enumerable
   end
 
   def my_all?(*args, &block)
-    # puts "args #{args} #{args[0].class}"
-    return my_select(&block).length == length if block_given?
-
-    unless block_given?
+    if block_given?
+      my_select(&block).length == length
+    else
       return true if args == []
       return ((my_select { |i| i.instance_of?(args[0]) }).length == length) if args[0].is_a? Class
       return ((my_select { |i| i.match(args[0]) }).length == length) if args[0].is_a? Regexp
@@ -32,36 +31,40 @@ module Enumerable
     end
   end
 
-  def my_any? ( *args )
+  def my_any?(*args, &block)
     if block_given?
-      return (self.my_select {|i| yield(i)}).length > 0
+      my_select(&block).length.positive?
     else
-      return
+      return true if args == []
+      return (my_select { |i| i == args[0] }).length.positive? if args[0].is_a? Integer
+      return (my_select { |i| i.instance_of?(args[0]) }).length.positive?if args[0].is_a? Class
+      return (my_select { |i| i.match(args[0]) }).length.positive? if args[0].is_a? Regexp
     end
   end
 
   def my_none?(*args, &block)
-    return my_select(&block).length.zero? if block_given?
-
-    unless block_given?
+    if block_given?
+      my_select(&block).length.zero?
+    else
       return length.zero? if args == []
       return (my_select { |i| i.instance_of?(args[0]) }).length.zero? if args[0].is_a? Class
       return (my_select { |i| i == args[0] }).length.zero? if args[0].is_a? Integer
     end
   end
 
-  def my_count ( *args )
+  def my_count(*args, &block)
     if block_given?
-      return (self.my_select {|i| yield(i)}).length
+      my_select(&block).length
     else
-      return (self.my_select { |i| i==args[0] }).length if args[0].is_a? Integer
-      return self.length
+      return (my_select { |i| i == args[0] }).length if args[0].is_a? Integer
+
+      length
     end
   end
 
-  def my_map( *args )
+  def my_map(*)
     arr = []
-    self.my_select do |n| 
+    my_select do |n|
       arr << yield(n)
     end
     arr
