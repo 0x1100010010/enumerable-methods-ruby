@@ -82,8 +82,7 @@ module Enumerable
     elsif (args.length == 1) && (args[0].is_a? Symbol)
       res = 0
       my_each { |i| res = res.send(args[0], i) }
-
-    elsif (args.length == 2) && (args[1].is_a? Symbol)
+    else
       res = args[0]
       drop(0).my_each { |i| res = res.send(args[1], i) }
     end
