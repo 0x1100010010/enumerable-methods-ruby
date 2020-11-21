@@ -30,9 +30,12 @@ module Enumerable
       my_select(&block).length == length
     else
       return true if args == []
-      return ((my_select { |i| i.instance_of?(args[0]) }).length == length) if args[0].is_a? Class
-      return ((my_select { |i| i.match(args[0]) }).length == length) if args[0].is_a? Regexp
+
+      return (my_select { |i| i.instance_of?(args[0]) }).length == length if args[0].is_a? Class
+      return (my_select { |i| i.match(args[0]) }).length == length if args[0].is_a? Regexp
       return (my_select { |i| i == args[0] }).length == length if args[0].is_a? Integer
+
+      false
     end
   end
 
@@ -41,9 +44,13 @@ module Enumerable
       my_select(&block).length.positive?
     else
       return true if args == []
-      return (my_select { |i| i == args[0] }).length.positive? if args[0].is_a? Integer
+
       return (my_select { |i| i.instance_of?(args[0]) }).length.positive? if args[0].is_a? Class
       return (my_select { |i| i.match(args[0]) }).length.positive? if args[0].is_a? Regexp
+      return (my_select { |i| i == args[0] }).length.positive? if args[0].is_a? Integer
+      return (my_select { |i| i.match(args[0]) }).length.positive? if args[0].is_a? String
+
+      false
     end
   end
 
@@ -53,7 +60,10 @@ module Enumerable
     else
       return length.zero? if args == []
       return (my_select { |i| i.instance_of?(args[0]) }).length.zero? if args[0].is_a? Class
+      return (my_select { |i| i.match(args[0]) }).length.zero? if args[0].is_a? Regexp
       return (my_select { |i| i == args[0] }).length.zero? if args[0].is_a? Integer
+
+      false
     end
   end
 
@@ -79,7 +89,7 @@ module Enumerable
       result = args.length.positive?
       res = result ? args[0] : self[0]
       drop(result ? 0 : 1).my_each { |i| res = yield(res, i) }
-    elsif (args.length == 1) && (args[0].is_a? Symbol)
+    elsif (args.length == 1) && ((args[0].is_a? Symbol) || (args[0].is_a? String))
       res = 0
       my_each { |i| res = res.send(args[0], i) }
     else
