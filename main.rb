@@ -3,8 +3,9 @@ module Enumerable
     return to_enum(:my_each) unless block_given?
 
     i = 0
-    while i < to_a.length
-      yield(to_a[i])
+    array = to_a
+    while i < array.length
+      yield(array[i])
       i += 1
     end
     self
