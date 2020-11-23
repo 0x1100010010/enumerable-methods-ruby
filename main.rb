@@ -37,10 +37,10 @@ module Enumerable
     if block_given?
       my_select(&block).size == size
     else
-      return true if args == []
-      return (my_select { |i| i.instance_of?(args[0]) }).length == length if args[0].is_a? Class
+      return !(include?(nil) || include?(false)) if args == []
+      return (my_select { |i| i.instance_of?(args[0]) || i.class < args[0] }).length == length if args[0].is_a? Class
       return (my_select { |i| i.match(args[0]) }).length == length if args[0].is_a? Regexp
-      return (my_select { |i| i == args[0] }).length == length if args[0].is_a? Integer
+      return (my_select { |i| i == args[0] }).length == length if args[0] < Numeric
 
       false
     end
@@ -144,12 +144,13 @@ end
 # p [-8, -9, -6, 0].my_all? { |n| n < 0 } # => false
 # # test cases required by tse reviewer
 # p [1, 2, 3, 4, 5].my_all? # => true
-# p [false].my_all? # => true
+p [1, 2, 3, false].my_all? # => false
 # p [1, 2, 3].my_all?(Integer) # => true
 # p %w[dog door rod blade].my_all?(/d/) # => true
 # p [1, 1, 1].my_all?(1) # => true
 # false_block = proc { |n| n<5 }
 # p (1..5).my_all?(&false_block) # false
+p [1, 2.2, 3, 0.6].my_all?(Numeric)
 # puts
 
 # # 5. my_any? (example test cases)
