@@ -100,8 +100,10 @@ module Enumerable
       res = result ? args[0] : self[0]
       drop(result ? 0 : 1).my_each { |i| res = yield(res, i) }
     elsif (args.length == 1) && ((args[0].is_a? Symbol) || (args[0].is_a? String))
-      res = 0
+      (args[0] == :* || args[0] == :/) ? res = 1 : res = 0
       my_each { |i| res = res.send(args[0], i) }
+    elsif args[0].nil? && args[1].nil?
+      raise LocalJumpError
     else
       res = args[0]
       drop(0).my_each { |i| res = res.send(args[1], i) }
@@ -223,5 +225,7 @@ end
 # p [1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem } # => 20
 # p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
 # p [5, 1, 2].my_inject(:+) # => 8
+# p [5, 1, 2].my_inject(:*) # => 10
 # p (5..10).my_inject(2, :*) # should return 302400
 # p (5..10).my_inject(4) { |prod, n| prod * n } # should return 604800
+# p (5..10).my_inject
