@@ -79,9 +79,9 @@ module Enumerable
     if block_given?
       my_select(&block).length
     else
-      return (my_select { |i| i == args[0] }).length if args[0].is_a? Integer
+      return (my_select { |i| i == args[0] }).size if args[0].class < Numeric
 
-      length
+      size
     end
   end
 
@@ -204,6 +204,7 @@ end
 # # test cases required by tse reviewer
 # p [1, 2, 3].my_count # => 3
 # p [1, 1, 1, 2, 3].my_count(1) # => 3
+# p (1..3).my_count #=> 3
 # puts
 
 # # 8. my_map
