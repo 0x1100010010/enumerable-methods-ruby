@@ -100,7 +100,7 @@ module Enumerable
       res = result ? args[0] : self[0]
       drop(result ? 0 : 1).my_each { |i| res = yield(res, i) }
     elsif (args.length == 1) && ((args[0].is_a? Symbol) || (args[0].is_a? String))
-      (args[0] == :* || args[0] == :/) ? res = 1 : res = 0
+      res = args[0] == :* || args[0] == :/ ? 1 : 0
       my_each { |i| res = res.send(args[0], i) }
     elsif args[0].nil? && args[1].nil?
       raise LocalJumpError
