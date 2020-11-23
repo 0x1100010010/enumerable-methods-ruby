@@ -26,9 +26,8 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    array = to_a
     arr = []
-    array.my_each do |i|
+    my_each do |i|
       arr << i if yield i
     end
     arr
@@ -118,7 +117,7 @@ end
 # puts 'my_each_with_index'
 # puts '------------------'
 # print [1, 2, 3].my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" } # => 1 : 0, 2 : 1, 3 : 2
-# p (1..3).my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }# returns undefined local variable or method `length' for 5..50:Range
+# p (1..3).my_each_with_index { |elem, idx| puts "
 # my_each_with_index_output = ''
 # enum=(1..5)
 # block = proc { |num, idx| my_each_with_index_output += "Num: #{num}, idx: #{idx}\n" }
@@ -133,7 +132,7 @@ end
 # p [1, 2, 3, 8].my_select(&:even?) # => [2, 8]
 # p [0, 2018, 1994, -7].my_select { |n| n > 0 } # => [2018, 1994]
 # p [6, 11, 13].my_select(&:odd?) # => [11, 13]
-# p (1..5).my_select(&:odd?) # => [11, 13]
+# p (1..5).my_select(&:odd?) # => [1, 3, 5]
 # puts
 
 # # 4. my_all? (example test cases)
