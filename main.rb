@@ -65,9 +65,13 @@ module Enumerable
     if block_given?
       my_select(&block).length.zero?
     else
-      return length.zero? || (my_select { |i| ![nil, false].include?(i) }).length.zero? if args == []
+      return (my_select { |i| ![nil, false].include?(i) }).length.zero? if args == []
       return (my_select { |i| i.instance_of?(args[0]) }).length.zero? if args[0].is_a? Class
-      return (my_select { |i| i == args[0] }).length.zero? if args[0].is_a? Integer
+      return (my_select { |i| i.match(args[0]) }).length.zero? if args[0].is_a? Regexp
+      return (my_select { |i| i == args[0] }).length.zero? if args[0].class < Numeric
+      return (my_select { |i| i == args[0] }).length.zero? if args[0].is_a? String
+
+      false
     end
   end
 
@@ -188,6 +192,7 @@ end
 # p [1, 2, 3].my_none?(String) # => true
 # p [1, 2, 3, 4, 5].my_none?(2) # => false
 # p [1, 2, 3].my_none?(4) # => true
+# p %w[sushi pizza burrito].my_none?(/y/) # => true
 # puts
 
 # # 7. my_count (example test cases)
