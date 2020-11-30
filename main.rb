@@ -38,10 +38,10 @@ module Enumerable
       my_select(&block).size == size
     else
       return !(include?(nil) || include?(false)) if args == []
-      return (my_select { |i| i.class <= args[0] }).length == length if args[0].is_a? Class
-      return (my_select { |i| i.match(args[0]) }).length == length if args[0].is_a? Regexp
-      return (my_select { |i| i == args[0] }).length == length if args[0].class < Numeric
-      return (my_select { |i| i == args[0] }).length == length if args[0].is_a? String
+      return (my_select { |i| i.class <= args[0] }).size == size if args[0].is_a? Class
+      return (my_select { |i| i.match(args[0]) }).size == size if args[0].is_a? Regexp
+      return (my_select { |i| i == args[0] }).size == size if args[0].class < Numeric
+      return (my_select { |i| i == args[0] }).size == size if args[0].is_a? String
 
       false
     end
@@ -123,6 +123,7 @@ end
 # puts [1, 2, 3].my_each { |elem| print "#{elem + 1} " } # => 2 3 4
 # p (5..10).my_each { |i| puts "#{i}" }
 # puts
+
 # # 2. my_each_with_index
 # puts 'my_each_with_index'
 # puts '------------------'
@@ -135,6 +136,7 @@ end
 # my_each_with_index_output = ''
 # p enum.my_each_with_index(&block)
 # puts
+
 # # 3. my_select
 # puts 'my_select'
 # puts '---------'
@@ -143,7 +145,8 @@ end
 # p [6, 11, 13].my_select(&:odd?) # => [11, 13]
 # p (1..5).my_select(&:odd?) # => [1, 3, 5]
 # puts
-# # 4. my_all? (example test cases)
+
+# # # 4. my_all? (example test cases)
 # puts 'my_all?'
 # puts '-------'
 # p [3, 5, 7, 11].my_all?(&:odd?) # => true
@@ -160,6 +163,7 @@ end
 # p (1..5).my_all?(&false_block) # false
 # p [1, 2.2, 3, 0.6].my_all?( ) #=> True
 # puts
+
 # # 5. my_any? (example test cases)
 # puts 'my_any?'
 # puts '-------'
@@ -176,6 +180,7 @@ end
 # p [1, 2, 3].my_any?(1) # => true
 # p ["a", "cat", "dog"].my_any?('cat') #=>true
 # puts
+
 # # 6. my_none? (example test cases)
 # puts 'my_none?'
 # puts '--------'
@@ -192,6 +197,7 @@ end
 # p [1, 2, 3].my_none?(4) # => true
 # p %w[sushi pizza burrito].my_none?(/y/) # => true
 # puts
+
 # # 7. my_count (example test cases)
 # puts 'my_count'
 # puts '--------'
@@ -203,6 +209,7 @@ end
 # p [1, 1, 1, 2, 3].my_count(1) # => 3
 # p (1..3).my_count #=> 3
 # puts
+
 # # 8. my_map
 # puts 'my_map'
 # puts '------'
@@ -212,6 +219,7 @@ end
 # my_proc = proc { |num| num > 10 }
 # p [18, 22, 5, 6].my_map(my_proc) { |num| num < 10 } # => true true false false
 # puts
+
 # # 9. my_inject
 # puts 'my_inject'
 # puts '---------'
