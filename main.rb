@@ -66,10 +66,12 @@ module Enumerable
       my_select(&block).length.zero?
     else
       return (my_select { |i| ![nil, false].include?(i) }).length.zero? if args == []
-      return (my_select { |i| i.instance_of?(args[0]) }).length.zero? if args[0].is_a? Class
       return (my_select { |i| i.match(args[0]) }).length.zero? if args[0].is_a? Regexp
       return (my_select { |i| i == args[0] }).length.zero? if args[0].class < Numeric
       return (my_select { |i| i == args[0] }).length.zero? if args[0].is_a? String
+      if (args[0].is_a? Class) && !(args[0].class < Numeric) && !(args[0].is_a? String)
+        return (my_select { |i| i.instance_of?(args[0]) || i.class < (args[0]) }).length.zero? if args[0].is_a? Class
+      end
 
       false
     end
@@ -164,7 +166,7 @@ end
 # p [1, 2.2, 3, 0.6].my_all?( ) #=> True
 # puts
 
-# # 5. my_any? (example test cases)
+# 5. my_any? (example test cases)
 # puts 'my_any?'
 # puts '-------'
 # p [7, 10, 4, 5].my_any?(&:even?) # => true
@@ -192,13 +194,13 @@ end
 # p %w[asparagus sushi pizza apple burrito].my_none? { |word| word[0] == 'a' } # => false
 # # test cases required by tse reviewer
 # p [1, 2, 3].my_none? # => false
-# p [1, 2, 3].my_none?(String) # => true
+# p [1, 2, 3].my_none?(Numeric) # => false
 # p [1, 2, 3, 4, 5].my_none?(2) # => false
 # p [1, 2, 3].my_none?(4) # => true
 # p %w[sushi pizza burrito].my_none?(/y/) # => true
 # puts
 
-# # 7. my_count (example test cases)
+# 7. my_count (example test cases)
 # puts 'my_count'
 # puts '--------'
 # p [1, 4, 3, 8].my_count(&:even?) # => 2
@@ -210,7 +212,7 @@ end
 # p (1..3).my_count #=> 3
 # puts
 
-# # 8. my_map
+# 8. my_map
 # puts 'my_map'
 # puts '------'
 # p [1, 2, 3].my_map { |n| 2 * n } # => [2,4,6]
@@ -220,7 +222,7 @@ end
 # p [18, 22, 5, 6].my_map(my_proc) { |num| num < 10 } # => true true false false
 # puts
 
-# # 9. my_inject
+# 9. my_inject
 # puts 'my_inject'
 # puts '---------'
 # p [1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem } # => 20
