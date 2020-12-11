@@ -1,4 +1,4 @@
-require './main.rb'
+require_relative '../main.rb'
 
 describe Enumerable do
   emp_arr = []
