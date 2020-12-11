@@ -13,6 +13,15 @@ This is a project from the Microverse course designed to fully understand enumer
 - Ruby
 - Rubocop Linter
 - Visual Studio Code
+- RSpec
+
+## RSpec tests
+
+To run RSpec tests to check Enumerable methods, you will need to:
+
+- Open your CLI (Command Line Interface)
+- Navigate to the project root directory
+- Run 'rspec' into your CLI.
 
 ## Contributing
 
