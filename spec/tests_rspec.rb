@@ -61,4 +61,29 @@ describe Enumerable do
       expect(arr_str.my_all?(String)).to eq(arr_str.all?(String))
     end
   end
+
+  context '#my_any?' do
+    it 'my_any? block iteration testing' do
+      expect(arr.my_any?(&:odd?)).to eq(arr.any?(&:odd?))
+    end
+    it 'my_any? range testing' do
+      expect(ran.my_any?(7)).to eq(ran.any?(7))
+    end
+    it 'my_any? class testing' do
+      expect(arr_str.my_any?(String)).to eq(arr_str.any?(String))
+    end
+  end
+
+  context '#my_none?' do
+    it 'my_none? block iteration testing' do
+      expect(arr.my_none?(&:odd?)).to eq(arr.none?(&:odd?))
+    end
+    it 'my_none? range testing' do
+      expect(ran.my_none?(8)).to eq(ran.none?(8))
+    end
+    it 'my_none? class testing' do
+      expect(arr_str.my_none?(String)).to eq(arr_str.none?(String))
+    end
+  end
+
 end
