@@ -47,7 +47,7 @@ describe Enumerable do
       expect(arr.my_select { |n| n == 5 }).to eq(arr.select { |n| n == 5 })
     end
   end
-  
+
   context '#my_all?' do
     it 'my_all? block iteration testing' do
       expect(arr.my_all?(&:odd?)).to eq(arr.all?(&:odd?))
@@ -66,9 +66,11 @@ describe Enumerable do
     it 'my_any? block iteration testing' do
       expect(arr.my_any?(&:odd?)).to eq(arr.any?(&:odd?))
     end
+    
     it 'my_any? range testing' do
       expect(ran.my_any?(7)).to eq(ran.any?(7))
     end
+
     it 'my_any? class testing' do
       expect(arr_str.my_any?(String)).to eq(arr_str.any?(String))
     end
@@ -78,11 +80,41 @@ describe Enumerable do
     it 'my_none? block iteration testing' do
       expect(arr.my_none?(&:odd?)).to eq(arr.none?(&:odd?))
     end
+
     it 'my_none? range testing' do
       expect(ran.my_none?(8)).to eq(ran.none?(8))
     end
+
     it 'my_none? class testing' do
       expect(arr_str.my_none?(String)).to eq(arr_str.none?(String))
+    end
+  end
+
+  context '#my_count' do
+    it 'my_count block iteration testing' do
+      expect(arr.my_count(&:odd?)).to eq(arr.count(&:odd?))
+    end
+
+    it 'my_count range testing' do
+      expect(ran.my_count(9)).to eq(ran.count(9))
+    end
+
+    it 'my_count block iteration testing' do
+      expect(up_arr.my_count{ |s| s == s.upcase }).to eq(up_arr.count{ |s| s == s.upcase })
+    end
+  end
+
+  context '#my_map' do
+    it 'my_map block operation testing' do
+      expect(arr.my_map{ |n| 2 * n }).to eq(arr.map{ |n| 2 * n })
+    end
+
+    it 'my_map block add testing' do
+      expect(arr_str.my_map{ |word| word + '?' }).to eq(arr_str.map{ |word| word + '?' })
+    end
+
+    it 'my_map block with argument testing' do
+      expect(arr_str.my_map(&:!)).to eq(arr_str.map(&:!))
     end
   end
 
