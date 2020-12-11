@@ -118,4 +118,17 @@ describe Enumerable do
     end
   end
 
+  context '#my_inject' do
+    it 'my_inject returns sum' do
+      expect(arr.my_inject(6) {|i, j| i + j}).to eq(arr.inject(6) {|i, j| i + j})
+    end
+
+    it 'my_inject symbol operation' do
+      expect(arr.my_inject(:*)).to eq(arr.inject(:*))
+    end
+    
+    it 'my_inject returns product' do
+      expect(ran.my_inject(4){ |prod, n| prod * n }).to eq(ran.inject(4){ |prod, n| prod * n })
+    end
+  end
 end
