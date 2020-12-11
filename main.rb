@@ -38,10 +38,10 @@ module Enumerable
       my_select(&block).size == size
     else
       return !(include?(nil) || include?(false)) if args == []
-      return (my_select { |i| i.class <= args[0] }).length == length if args[0].is_a? Class
-      return (my_select { |i| i.match(args[0]) }).length == length if args[0].is_a? Regexp
-      return (my_select { |i| i == args[0] }).length == length if args[0].class < Numeric
-      return (my_select { |i| i == args[0] }).length == length if args[0].is_a? String
+      return (my_select { |i| i.class <= args[0] }).size == size if args[0].is_a? Class
+      return (my_select { |i| i.match(args[0]) }).size == size if args[0].is_a? Regexp
+      return (my_select { |i| i == args[0] }).size == size if args[0].class < Numeric
+      return (my_select { |i| i == args[0] }).size == size if args[0].is_a? String
 
       false
     end
@@ -115,3 +115,4 @@ end
 def multiply_els(args)
   args.my_inject(1) { |prod, n| prod * n }
 end
+
